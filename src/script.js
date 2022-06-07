@@ -1,39 +1,84 @@
-import "./style.css";
+import './style.css';
+import gui from 'lil-gui';
 
-const canvas = document.querySelector(".canvas");
+const canvas = document.querySelector('.canvas');
 
-const ctx = canvas.getContext("2d");
+const GUI = new gui();
+
+const ctx = canvas.getContext('2d');
 
 const width = window.innerWidth;
 const height = window.innerHeight;
+
+canvas.width = width;
+canvas.height = height;
 
 const mouse = {
   x: 0,
   y: 0,
 };
 
-canvas.width = width;
-canvas.height = height;
+const parameters = {
+  radius: 300,
+};
 
-window.addEventListener("resize", () => {
+let time = new Date();
+
+window.addEventListener('resize', () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
 
-window.addEventListener("mousemove", (event) => {
+window.addEventListener('mousemove', (event) => {
   mouse.x = event.clientX - canvas.offsetLeft;
   mouse.y = event.clientY - canvas.offsetTop;
   // mouse.x = window.pageXOffset + event.clientX - canvas.offsetLeft;
   // mouse.y = window.pageYOffset + event.clientY - canvas.offsetTop;
 });
 
-ctx.fillStyle = "rgb(250, 0, 0)";
-ctx.strokeStyle = "rgb(250, 102, 40)";
+ctx.fillStyle = 'rgb(250, 250, 0)';
+ctx.strokeStyle = 'rgb(250, 102, 40)';
+
+// Add points on circle
+const pointsNumber = 20;
+let radius = 300;
+
+GUI.add(parameters, 'radius').min(0).max(600).step(1);
+const center = {
+  x: window.innerWidth / 2,
+  y: window.innerHeight / 2,
+};
+
+const drawCircle = (radius) => {
+  for (let i = 0; i < pointsNumber; i++) {
+    const position = {
+      x: radius * Math.cos(((Math.PI * 2) / pointsNumber) * i) + center.x,
+      y: radius * Math.sin(((Math.PI * 2) / pointsNumber) * i) + center.y,
+    };
+    ctx.fillRect(position.x, position.y, 10, 10);
+    // ctx.arc(position.x, position.y, 10, 0, Math.PI * 2, false);
+  }
+};
+
+drawCircle(radius);
 
 const tick = () => {
-  // ctx.clearRect(0, 0, window.innerWidth, window.innnerHeight);
-  ctx.fillRect(mouse.x - 25, mouse.y - 25, 50, 50);
-  //Draw a line
+  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  // ctx.fillRect(mouse.x - 25, mouse.y - 25, 50, 50);
+
+  let elapsedTime = new Date() - time;
+
+  // console.log(elapsedTime);
+
+  radius += Math.cos(elapsedTime * 0.001) * 2;
+
+  console.log(radius);
+
+  drawCircle(radius);
+
+  // console.log(radius);
+
+  // //Draw a line
   // ctx.moveTo(0, 0);
   // ctx.lineTo(mouse.x, mouse.y);
   // ctx.stroke();
