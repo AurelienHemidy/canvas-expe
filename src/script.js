@@ -20,6 +20,9 @@ const mouse = {
 
 const parameters = {
   radius: 300,
+  amplitude: 2,
+  lerp: 0,
+  centerCircle: false,
 };
 
 let time = new Date();
@@ -41,9 +44,12 @@ ctx.strokeStyle = 'rgb(250, 102, 40)';
 
 // Add points on circle
 const pointsNumber = 20;
-let radius = 300;
+let radius = 0;
 
 GUI.add(parameters, 'radius').min(0).max(600).step(1);
+GUI.add(parameters, 'amplitude').min(0).max(2).step(0.01);
+GUI.add(parameters, 'lerp').min(0).max(1).step(0.01);
+GUI.add(parameters, 'centerCircle');
 const center = {
   x: window.innerWidth / 2,
   y: window.innerHeight / 2,
@@ -60,7 +66,26 @@ const drawCircle = (radius) => {
   }
 };
 
+const lerp = (value1, value2, t) => {
+  return (1 - t) * value1 + t * value2;
+};
+
+// Fonction qui lorsque je lui donne un objectif, va bouger jusqu'à celui-ci petit a petit
+
+const linearMoveTo = (target, objective, lerp) => {
+  if (target == objective) return target;
+
+  if (target > objective) {
+    return (target -= lerp);
+  } else {
+    return (target += lerp);
+  }
+};
+
 drawCircle(radius);
+
+const amplitude = 2;
+const frequency = 0.001;
 
 const tick = () => {
   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
@@ -70,9 +95,16 @@ const tick = () => {
 
   // console.log(elapsedTime);
 
-  radius += Math.cos(elapsedTime * 0.001) * 2;
+  // radius += Math.cos(elapsedTime * frequency) * parameters.amplitude;
 
-  console.log(radius);
+  if (parameters.centerCircle) {
+    radius = linearMoveTo(radius, 0, 10);
+  } else {
+    radius = linearMoveTo(radius, 300, 10);
+  }
+  // radius = lerp(0, 300, 0.3);
+
+  // console.log(radius);
 
   drawCircle(radius);
 
