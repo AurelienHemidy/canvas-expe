@@ -1,11 +1,11 @@
-import './style.css';
-import gui from 'lil-gui';
+import "./style.css";
+import gui from "lil-gui";
 
-const canvas = document.querySelector('.canvas');
+const canvas = document.querySelector(".canvas");
 
 const GUI = new gui();
 
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext("2d");
 
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -27,29 +27,29 @@ const parameters = {
 
 let time = new Date();
 
-window.addEventListener('resize', () => {
+window.addEventListener("resize", () => {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 });
 
-window.addEventListener('mousemove', (event) => {
+window.addEventListener("mousemove", (event) => {
   mouse.x = event.clientX - canvas.offsetLeft;
   mouse.y = event.clientY - canvas.offsetTop;
   // mouse.x = window.pageXOffset + event.clientX - canvas.offsetLeft;
   // mouse.y = window.pageYOffset + event.clientY - canvas.offsetTop;
 });
 
-ctx.fillStyle = 'rgb(250, 250, 0)';
-ctx.strokeStyle = 'rgb(250, 102, 40)';
+ctx.fillStyle = "rgb(250, 250, 0)";
+ctx.strokeStyle = "rgb(250, 102, 40)";
 
 // Add points on circle
 const pointsNumber = 20;
 let radius = 0;
 
-GUI.add(parameters, 'radius').min(0).max(600).step(1);
-GUI.add(parameters, 'amplitude').min(0).max(2).step(0.01);
-GUI.add(parameters, 'lerp').min(0).max(1).step(0.01);
-GUI.add(parameters, 'centerCircle');
+GUI.add(parameters, "radius").min(0).max(600).step(1);
+GUI.add(parameters, "amplitude").min(0).max(2).step(0.01);
+GUI.add(parameters, "lerp").min(0).max(1).step(0.01);
+GUI.add(parameters, "centerCircle");
 const center = {
   x: window.innerWidth / 2,
   y: window.innerHeight / 2,
