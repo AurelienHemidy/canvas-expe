@@ -42,6 +42,16 @@ window.addEventListener("mousemove", (event) => {
   // mouse.y = window.pageYOffset + event.clientY - canvas.offsetTop;
 });
 
+window.addEventListener("click", () => {
+  console.log("blbla");
+  parameters.centerCircle = !parameters.centerCircle;
+  if (parameters.centerCircle) {
+    gsap.to(parameters, { lerp: 1, duration: 1, ease: "pow2.out" });
+  } else {
+    gsap.to(parameters, { lerp: 0, duration: 1, ease: "pow2.out" });
+  }
+});
+
 ctx.fillStyle = "rgb(250, 250, 0)";
 ctx.strokeStyle = "rgb(250, 102, 40)";
 
@@ -109,47 +119,18 @@ const frequency = 0.001;
 
 const tick = () => {
   // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  // ctx.globalAlpha = 0.5;
-  ctx.fillStyle = "rgba(0, 0, 0, 0.9";
+  ctx.fillStyle = "rgba(0, 0, 0, 0.6";
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
-  // ctx.fillRect(mouse.x - 25, mouse.y - 25, 50, 50);
 
   let elapsedTime = new Date() - time;
 
-  // console.log(elapsedTime);
-
-  // radius += Math.cos(elapsedTime * frequency) * parameters.amplitude;
-
-  // if (parameters.centerCircle) {
-  //   radius = linearMoveTo(radius, 0, 10);
-  // } else {
-  //   radius = linearMoveTo(radius, 300, 10);
-  // }
-
-  // if (parameters.rotation) {
-  //   rotate = linearMoveTo(rotate, Math.PI / 2, 0.1);
-  // } else {
-  //   rotate = linearMoveTo(rotate, 0, 0.1);
-  // }
-
-  // radius = lerp(0, 300, 0.3);
+  // Radius
   radius = lerp(100, 300, parameters.lerp);
+
+  // Rotate
   rotate = lerp(0, Math.PI / 2, parameters.lerp);
 
-  // console.log(radius);
-
   drawCircle(radius, rotate);
-
-  // console.log(radius);
-
-  // //Draw a line
-  // ctx.moveTo(0, 0);
-  // ctx.lineTo(mouse.x, mouse.y);
-  // ctx.stroke();
-
-  // ctx.beginPath();
-  // ctx.arc(mouse.x, mouse.y, 40, 0, 2 * Math.PI);
-  // ctx.stroke();
 
   requestAnimationFrame(tick);
 };
