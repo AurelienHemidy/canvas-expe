@@ -113,18 +113,20 @@ const linearMoveTo = (target, objective, lerp) => {
 
 drawCircle(radius, rotate);
 
-const amplitude = 2;
+const amplitude = 2.5;
 const frequency = 0.001;
 
 const tick = () => {
   // ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.6';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.1';
   ctx.fillRect(0, 0, window.innerWidth, window.innerHeight);
 
   let elapsedTime = new Date() - time;
 
+  parameters.radius += Math.sin(elapsedTime * frequency) * amplitude;
+
   // Radius
-  radius = lerp(100, 300, parameters.lerp);
+  radius = lerp(100, parameters.radius, parameters.lerp);
 
   // Rotate
   rotate = lerp(0, Math.PI / 2, parameters.lerp);
