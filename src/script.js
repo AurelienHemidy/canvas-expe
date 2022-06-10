@@ -14,6 +14,8 @@ const height = window.innerHeight;
 canvas.width = width;
 canvas.height = height;
 
+// Adding some state to my particles to manipulate them
+
 const mouse = {
   x: 0,
   y: 0,
